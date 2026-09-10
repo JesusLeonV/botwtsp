@@ -1,0 +1,21 @@
+services:
+  whatsapp-bot:
+    build: .
+    image: cloudsolutions-whatsapp-bot:latest
+    container_name: cloudsolutions-bot
+    restart: unless-stopped
+    network_mode: host
+    shm_size: '1gb'
+    volumes:
+      - ./.wwebjs_auth:/app/.wwebjs_auth
+      - ./.wwebjs_cache:/app/.wwebjs_cache
+      - /home/jesus/cloudsolutions:/home/jesus/cloudsolutions:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - NODE_ENV=production
+      - N8N_WEBHOOK_URL=http://localhost:5678/webhook/whatsapp-bot
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+      - PYTHON_BIN=/usr/bin/python3
+      - AUTH_SCRIPT=/home/jesus/cloudsolutions/scripts/auth_cliente.py
+      - GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
+      - NVIDIA_API_KEY=YOUR_NVIDIA_API_KEY_HERE
